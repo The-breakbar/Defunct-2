@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class controls : MonoBehaviour
+public class Controls : MonoBehaviour
 {
 
     public KeyCode upKey = KeyCode.W;
@@ -18,39 +18,43 @@ public class controls : MonoBehaviour
     // a character controller is a small wrapper for a rigid body
     // it implements useful features like slope movement, stepping, and collision detection
     private CharacterController controller;
-    private float verticalVelocity;
+    private Vector3 velocity;
+    private GameLoop gameLoop;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        gameLoop = GameObject.Find("gameLoop").GetComponent<GameLoop>();
     }
 
     void Update()
     {
+        velocity = new Vector3(0, velocity.y, 0);
+
         // Horizontal movement
         Vector3 move = Vector3.zero;
         if (Input.GetKey(upKey)) { move.x = 1; }
         if (Input.GetKey(downKey)) { move.x = -1; }
         if (Input.GetKey(leftKey)) { move.z = 1; }
         if (Input.GetKey(rightKey)) { move.z = -1; }
+        velocity += move.normalized * speed;
 
-        controller.Move(move.normalized * Time.deltaTime * speed);
+        // Change the direction the player is facing
         if (move != Vector3.zero)
         {
-            // Change the direction the player is facing
             gameObject.transform.forward = move;
         }
 
         // Vertical movement
         if (controller.isGrounded)
         {
-            verticalVelocity = Input.GetKeyDown(jumpKey) ? jumpPower : 0;
-        }
-        else
-        {
-            verticalVelocity -= gravity * Time.deltaTime;
+            velocity.y = Input.GetKeyDown(jumpKey) ? jumpPower : 0;
         }
 
-        controller.Move(new Vector3(0, verticalVelocity, 0) * Time.deltaTime);
+        // Apply gravity (should be done every frame for consistent isGrounded behavior)
+        velocity.y -= gravity * Time.deltaTime;
+
+        // Move the player
+        controller.Move(velocity * Time.deltaTime);
     }
 }
