@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-
-    public bool startCheckpoint = false;
-
     private bool active = false;
     private GameLoop gameLoop;
     private PlayerCamera playerCamera;
@@ -15,15 +12,6 @@ public class Checkpoint : MonoBehaviour
     {
         gameLoop = FindObjectOfType<GameLoop>();
         playerCamera = FindObjectOfType<PlayerCamera>();
-
-        if (startCheckpoint)
-        {
-            Activate();
-        }
-        else
-        {
-            Deactivate();
-        }
     }
 
     public void Activate()
@@ -43,7 +31,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (active && other.gameObject.CompareTag("Player"))
         {
-            gameLoop.CheckpointReached(this, other.gameObject.GetComponent<Player>());
+            gameLoop.CheckpointReached(this);
         }
     }
 

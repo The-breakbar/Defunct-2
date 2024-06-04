@@ -12,20 +12,17 @@ public class PlayerCamera : MonoBehaviour
 {
     public Transform player1;
     public Transform player2;
+    [Range(0.0f, 1.0f)]
     public float interpolation = 0.5f;
     public Vector3 offset;
 
     private Vector3 currentGoal;
     private bool player1WasCloser = false;
     private CameraState state = CameraState.Tracking;
-    public float camChangeSpeed = 1.0f;
+    [Range(0.0f, 10.0f)]
+    public float camChangeTime = 1.0f;
     private float remainingTime = 0.0f;
     private Vector3 lastChangePosition;
-
-    void Start()
-    {
-        currentGoal = transform.position;
-    }
 
     void Update()
     {
@@ -41,7 +38,7 @@ public class PlayerCamera : MonoBehaviour
             player1WasCloser = player1Closer;
 
             state = CameraState.Lerping;
-            remainingTime = camChangeSpeed;
+            remainingTime = camChangeTime;
             lastChangePosition = transform.position;
         }
 
@@ -54,7 +51,7 @@ public class PlayerCamera : MonoBehaviour
             }
             else
             {
-                float t = 1.0f - (remainingTime / camChangeSpeed);
+                float t = 1.0f - (remainingTime / camChangeTime);
                 transform.position = Vector3.Lerp(lastChangePosition, targetPosition, t);
             }
         }

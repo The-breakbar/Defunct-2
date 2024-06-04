@@ -1,5 +1,39 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4321829948668648376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1971157924157345004}
+  m_Layer: 0
+  m_Name: obstacleModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1971157924157345004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4321829948668648376}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4867847948133451623}
+  - {fileID: 7749498416201798108}
+  - {fileID: 4551778404322527859}
+  m_Father: {fileID: 7062147712701405453}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4770956703578121513
 GameObject:
   m_ObjectHideFlags: 0
@@ -27,12 +61,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4770956703578121513}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.9, z: 0}
   m_LocalScale: {x: 1.6837115, y: 2.6739202, z: 1.6837115}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 7062147712701405453}
+  m_Father: {fileID: 1971157924157345004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5858772682322583067
 MeshFilter:
@@ -136,9 +170,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4867847948133451623}
-  - {fileID: 7749498416201798108}
-  - {fileID: 4551778404322527859}
+  - {fileID: 1971157924157345004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2405515653551531501
@@ -174,8 +206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8597ce79948ed4dae0661355e852ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacleModel: {fileID: 4321829948668648376}
   speedAfterSlowdown: 0
   speedIncreaseAfterSlowdown: 0.2
+  respawnTime: 10
 --- !u!1 &6759718924824935251
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,12 +237,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6759718924824935251}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.269, y: 3.6034234, z: 2.269}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7062147712701405453}
+  m_Father: {fileID: 1971157924157345004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6789154381826221318
 MeshFilter:
@@ -308,12 +342,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7722335937344115318}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 5.36, z: 0}
   m_LocalScale: {x: 1.0216256, y: 3.6565259, z: 1.0216256}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7062147712701405453}
+  m_Father: {fileID: 1971157924157345004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1663313274602701994
 MeshFilter:

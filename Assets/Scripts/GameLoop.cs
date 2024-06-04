@@ -6,7 +6,8 @@ public enum GameState
 {
     Starting,
     Spawning,
-    Racing
+    Racing,
+    Winning
 }
 
 public class GameLoop : MonoBehaviour
@@ -14,6 +15,7 @@ public class GameLoop : MonoBehaviour
     public Player player1;
     public Player player2;
 
+    private readonly int pointsToWin = 2;
     private GameState state;
     private float currentDelay;
     private List<Checkpoint> checkpoints = new List<Checkpoint>();
@@ -21,8 +23,7 @@ public class GameLoop : MonoBehaviour
 
     public void Start()
     {
-        state = GameState.Starting;
-
+        // Grab all checkpoints in the scene
         Checkpoint[] checkpointArray = FindObjectsOfType<Checkpoint>(true);
         foreach (Checkpoint checkpoint in checkpointArray)
         {
@@ -31,25 +32,18 @@ public class GameLoop : MonoBehaviour
         if (checkpoints.Count < 2)
         {
             Debug.LogError("Not enough checkpoints found");
+            return;
         }
+
+        // Select random starting checkpoint
+        CheckpointReached(checkpoints[Random.Range(0, checkpoints.Count)]);
+        Respawn();
     }
 
     public void Update()
     {
-        if (state == GameState.Starting)
+        if (state == GameState.Spawning)
         {
-            while (lastCheckpoint == null || lastCheckpoint.IsActive())
-            {
-                lastCheckpoint = checkpoints[Random.Range(0, checkpoints.Count)];
-            }
-
-            state = GameState.Spawning;
-            currentDelay = 1.0f;
-            Debug.Log("Found start, spawning started");
-        }
-        else if (state == GameState.Spawning)
-        {
-
             if (DelayFinished())
             {
                 state = GameState.Racing;
@@ -58,6 +52,7 @@ public class GameLoop : MonoBehaviour
         }
         else if (state == GameState.Racing)
         {
+            // Check if a player is outside the window
             Player deadPlayer = null;
             if (!player1.CheckVisibility()) deadPlayer = player1;
             else if (!player2.CheckVisibility()) deadPlayer = player2;
@@ -65,19 +60,32 @@ public class GameLoop : MonoBehaviour
             if (deadPlayer != null)
             {
                 Debug.Log("Player " + deadPlayer.GetId() + " died");
-                Respawn();
+                Player notDeadPlayer = deadPlayer == player1 ? player2 : player1;
+                notDeadPlayer.AddPoint();
+
+                if (notDeadPlayer.GetPoints() >= pointsToWin)
+                {
+                    state = GameState.Winning;
+                    Debug.Log("Player " + notDeadPlayer.GetId() + " won");
+                }
+                else
+                {
+                    Respawn();
+                }
             }
         }
     }
 
+    // Teleport players to the last checkpoint
     private void Respawn()
     {
+        state = GameState.Spawning;
+        currentDelay = 1.0f;
         TeleportPlayersTo(lastCheckpoint.transform);
     }
 
-    public void CheckpointReached(Checkpoint checkpoint, Player player)
+    public void CheckpointReached(Checkpoint checkpoint)
     {
-        Debug.Log("Player " + player.GetId() + " reached checkpoint");
         checkpoint.Deactivate();
 
         Checkpoint newCheckpoint = checkpoint;
@@ -89,6 +97,7 @@ public class GameLoop : MonoBehaviour
         lastCheckpoint = checkpoint;
     }
 
+    // Utility to wait for a delay
     private bool DelayFinished()
     {
         currentDelay -= Time.deltaTime;
@@ -111,6 +120,7 @@ public class GameLoop : MonoBehaviour
         // Needed as otherwise the transform is not recognized due to an override by the character controller components
         Physics.SyncTransforms();
 
+        // Clear the trails which are left behind from the teleportation
         player1.ClearTrail();
         player2.ClearTrail();
     }

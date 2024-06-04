@@ -8,11 +8,14 @@ public class Player : MonoBehaviour
     public Renderer visibilityObject;
     public TrailRenderer trail;
 
+    private int points = 0;
+
     public int GetId()
     {
         return id;
     }
 
+    // Checks if the player is visible on the screen
     public bool CheckVisibility()
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
@@ -24,6 +27,16 @@ public class Player : MonoBehaviour
     public void ClearTrail()
     {
         trail.Clear();
+    }
+
+    public void AddPoint()
+    {
+        points++;
+    }
+
+    public int GetPoints()
+    {
+        return points;
     }
 
 }
