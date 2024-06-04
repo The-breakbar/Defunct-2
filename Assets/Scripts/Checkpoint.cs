@@ -5,24 +5,45 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public bool startCheckpoint = false;
 
+    private bool active = false;
+    private GameLoop gameLoop;
+    private PlayerCamera playerCamera;
+
+    public void Start()
+    {
+        gameLoop = FindObjectOfType<GameLoop>();
+        playerCamera = FindObjectOfType<PlayerCamera>();
+
+        if (startCheckpoint)
+        {
+            Activate();
+        }
+        else
+        {
+            Deactivate();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Activate()
     {
+        active = true;
+        gameObject.SetActive(true);
+        playerCamera.SetGoal(transform.position);
+    }
 
+    public void Deactivate()
+    {
+        active = false;
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (active && other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Checkpoint reached!");
+            gameLoop.CheckpointReached(this, other.gameObject.GetComponent<Player>());
         }
     }
-
 }
