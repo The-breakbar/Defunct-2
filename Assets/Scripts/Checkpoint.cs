@@ -46,4 +46,9 @@ public class Checkpoint : MonoBehaviour
             gameLoop.CheckpointReached(this, other.gameObject.GetComponent<Player>());
         }
     }
+
+    public bool IsActive()
+    {
+        return active;
+    }
 }

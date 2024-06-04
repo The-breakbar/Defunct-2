@@ -4,6 +4,8 @@ using UnityEngine;
 
 public enum GameState
 {
+    Starting,
+    Spawning,
     Racing
 }
 
@@ -12,32 +14,71 @@ public class GameLoop : MonoBehaviour
     public Player player1;
     public Player player2;
 
-    private GameState state = GameState.Racing;
+    private GameState state;
+    private float currentDelay;
     private List<Checkpoint> checkpoints = new List<Checkpoint>();
+    private Checkpoint lastCheckpoint;
 
     public void Start()
     {
+        state = GameState.Starting;
+
         Checkpoint[] checkpointArray = FindObjectsOfType<Checkpoint>(true);
         foreach (Checkpoint checkpoint in checkpointArray)
         {
             checkpoints.Add(checkpoint);
         }
+        if (checkpoints.Count < 2)
+        {
+            Debug.LogError("Not enough checkpoints found");
+        }
+    }
 
-        Debug.Log("Initialized " + checkpoints.Count + " checkpoints");
+    public void Update()
+    {
+        if (state == GameState.Starting)
+        {
+            while (lastCheckpoint == null || lastCheckpoint.IsActive())
+            {
+                lastCheckpoint = checkpoints[Random.Range(0, checkpoints.Count)];
+            }
+
+            state = GameState.Spawning;
+            currentDelay = 1.0f;
+            Debug.Log("Found start, spawning started");
+        }
+        else if (state == GameState.Spawning)
+        {
+
+            if (DelayFinished())
+            {
+                state = GameState.Racing;
+                Debug.Log("Racing started");
+            }
+        }
+        else if (state == GameState.Racing)
+        {
+            Player deadPlayer = null;
+            if (!player1.CheckVisibility()) deadPlayer = player1;
+            else if (!player2.CheckVisibility()) deadPlayer = player2;
+
+            if (deadPlayer != null)
+            {
+                Debug.Log("Player " + deadPlayer.GetId() + " died");
+                Respawn();
+            }
+        }
+    }
+
+    private void Respawn()
+    {
+        TeleportPlayersTo(lastCheckpoint.transform);
     }
 
     public void CheckpointReached(Checkpoint checkpoint, Player player)
     {
         Debug.Log("Player " + player.GetId() + " reached checkpoint");
-        player.AddPoint();
         checkpoint.Deactivate();
-
-        // Select new random checkpoint (that can't be the same as the current one)
-        if (checkpoints.Count < 2)
-        {
-            Debug.Log("Not enough checkpoints to select a new one");
-            return;
-        }
 
         Checkpoint newCheckpoint = checkpoint;
         while (newCheckpoint == checkpoint)
@@ -45,7 +86,17 @@ public class GameLoop : MonoBehaviour
             newCheckpoint = checkpoints[Random.Range(0, checkpoints.Count)];
         }
         newCheckpoint.Activate();
+        lastCheckpoint = checkpoint;
+    }
 
+    private bool DelayFinished()
+    {
+        currentDelay -= Time.deltaTime;
+        if (currentDelay <= 0.0f)
+        {
+            currentDelay = 0.0f;
+        }
+        return currentDelay == 0.0f;
     }
 
     private void TeleportPlayersTo(Transform target)
@@ -59,6 +110,9 @@ public class GameLoop : MonoBehaviour
 
         // Needed as otherwise the transform is not recognized due to an override by the character controller components
         Physics.SyncTransforms();
+
+        player1.ClearTrail();
+        player2.ClearTrail();
     }
 
     public GameState GetState()

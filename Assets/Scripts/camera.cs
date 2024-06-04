@@ -22,6 +22,11 @@ public class PlayerCamera : MonoBehaviour
     private float remainingTime = 0.0f;
     private Vector3 lastChangePosition;
 
+    void Start()
+    {
+        currentGoal = transform.position;
+    }
+
     void Update()
     {
         bool player1Closer = Vector3.Distance(currentGoal, player1.position) < Vector3.Distance(currentGoal, player2.position);

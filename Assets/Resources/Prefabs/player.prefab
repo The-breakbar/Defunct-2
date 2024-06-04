@@ -310,3 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78fbeca6a8a79c40a70833b1703c12a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  visibilityObject: {fileID: 280503015010202861}
+  trail: {fileID: 3993696825034569278}

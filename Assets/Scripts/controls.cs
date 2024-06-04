@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,10 @@ public class Controls : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
 
     private float speed = 15.0f;
-    private float jumpPower = 10.0f;
-    private float gravity = 18.0f;
+    private float speedIncreaseAfterSlowdown = 0.5f;
+    private static readonly float defaultSpeed = 15.0f;
+    private static readonly float jumpPower = 10.0f;
+    private static readonly float gravity = 18.0f;
 
     // a character controller is a small wrapper for a rigid body
     // it implements useful features like slope movement, stepping, and collision detection
@@ -21,10 +24,25 @@ public class Controls : MonoBehaviour
     private Vector3 velocity;
     private GameLoop gameLoop;
 
+    public void DoSlowDown(float speedAfterSlowdown, float speedIncreaseAfterSlowdown)
+    {
+        speed = speedAfterSlowdown;
+        this.speedIncreaseAfterSlowdown = speedIncreaseAfterSlowdown;
+    }
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         gameLoop = GameObject.Find("gameLoop").GetComponent<GameLoop>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (speed < defaultSpeed)
+        {
+            speed += speedIncreaseAfterSlowdown;
+            speed = Math.Min(speed, defaultSpeed);
+        }
     }
 
     void Update()
