@@ -15,7 +15,7 @@ public class GameLoop : MonoBehaviour
     public Player player1;
     public Player player2;
 
-    private readonly int pointsToWin = 2;
+    private readonly int pointsToWin = 3;
     private GameState state;
     private float currentDelay;
     private List<Checkpoint> checkpoints = new List<Checkpoint>();
