@@ -11,19 +11,35 @@ public class Controls : MonoBehaviour
     public KeyCode leftKey = KeyCode.A;
     public KeyCode rightKey = KeyCode.D;
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode boostKey = KeyCode.LeftShift;
 
-    private float speed = 15.0f;
-    private float speedIncreaseAfterSlowdown = 0.5f;
-    private static readonly float maxSpeed = 15.0f;
-    private static readonly float maxBoostSpeed = 30.0f;
-    private static readonly float jumpPower = 10.0f;
-    private static readonly float gravity = 18.0f;
+    [Range(0.0f, 100.0f)]
+    public float speed = 15.0f;
+    [Range(0.0f, 1.0f)]
+    public float speedIncreaseAfterSlowdown = 0.5f;
+
+    [Range(0.0f, 50.0f)]
+    public float maxSpeed = 15.0f;
+    public float boost = 3.0f;
+
+    [Range(0.0f, 5.0f)]
+    public int maxBoost = 3;
+
+    [Range(0.0f, 100.0f)]
+    public float maxBoostSpeed = 30.0f;
+    [Range(0.0f, 3.0f)]
+    public float boostSpeedChange = 1.0f;
+
+    [Range(0.0f, 50.0f)]
+    public float jumpPower = 10.0f;
+
+    [Range(0.0f, 50.0f)]
+    public float gravity = 18.0f;
 
     // a character controller is a small wrapper for a rigid body
     // it implements useful features like slope movement, stepping, and collision detection
     private CharacterController controller;
     private Vector3 velocity;
-    private GameLoop gameLoop;
 
     public void DoSlowDown(float speedAfterSlowdown, float speedIncreaseAfterSlowdown)
     {
@@ -34,16 +50,24 @@ public class Controls : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        gameLoop = GameObject.Find("gameLoop").GetComponent<GameLoop>();
     }
 
     private void FixedUpdate()
     {
-        if (speed < maxSpeed)
+        // Acceleration after slowdown
+        if (speed < maxSpeed) speed += speedIncreaseAfterSlowdown;
+
+        // Boosting
+        if (Input.GetKey(boostKey) && boost > 0)
         {
-            speed += speedIncreaseAfterSlowdown;
-            speed = Math.Min(speed, maxSpeed);
+            speed += boostSpeedChange;
+            boost -= Time.deltaTime;
+            boost = Mathf.Max(boost, 0);
         }
+        else if (speed > maxSpeed) speed -= boostSpeedChange;
+
+        // Cap speed
+        speed = Input.GetKey(boostKey) ? Mathf.Min(speed, maxBoostSpeed) : Mathf.Min(speed, maxSpeed);
     }
 
     void Update()
@@ -75,5 +99,21 @@ public class Controls : MonoBehaviour
 
         // Move the player
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    public float GetBoostPercentage()
+    {
+        return boost / maxBoost;
+    }
+
+    public bool IsBoosting()
+    {
+        return Input.GetKey(boostKey) && boost > 0;
+    }
+
+    public void AddBoost(float amount)
+    {
+        boost += amount;
+        boost = Mathf.Min(boost, maxBoost);
     }
 }

@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/custom_styles.uss?fileID=7433441132597879392&amp;guid=4e3291b1a61551f41844edbf63696a05&amp;type=3#custom_styles" />
+    <ui:VisualElement name="Container" style="flex-grow: 1; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; flex-direction: row; justify-content: space-between;">
+        <ui:VisualElement name="Player1_Elements" style="flex-grow: 1; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; padding-right: 0;">
+            <ui:ProgressBar value="0" title="my-progress" name="Player1_Boost" high-value="1" focusable="false" class="boost-bar" />
+            <ui:VisualElement name="Player1_Points_Holder" focusable="false" style="flex-grow: initial; align-items: flex-start; width: auto; height: auto; flex-direction: row-reverse; flex-shrink: initial;">
+                <ui:VisualElement name="1" class="test" style="flex-grow: 1; align-items: auto; flex-direction: column; align-self: auto;" />
+                <ui:VisualElement name="2" class="test" style="flex-grow: 1; align-items: auto; flex-direction: column; align-self: auto;" />
+                <ui:VisualElement name="3" class="test" style="flex-grow: 1; align-items: auto; flex-direction: column; align-self: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Divider" class="divider" />
+        <ui:VisualElement name="Player2_Elements" style="flex-grow: 1; flex-direction: row-reverse; padding-left: 0; justify-content: space-between;">
+            <ui:ProgressBar value="0" title="my-progress" name="Player2_Boost" high-value="1" class="boost-bar" />
+            <ui:VisualElement name="Player2_Points_Holder" focusable="false" style="flex-grow: initial; align-items: flex-start; width: auto; height: auto; flex-direction: row; flex-shrink: initial;">
+                <ui:VisualElement name="2_1" class="test" style="flex-grow: 1; align-items: auto; flex-direction: column; align-self: auto;" />
+                <ui:VisualElement name="2_2" class="test" style="flex-grow: 1; align-items: auto; flex-direction: column; align-self: auto;" />
+                <ui:VisualElement name="2_3" class="test" style="flex-grow: 1; align-items: auto; flex-direction: column; align-self: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -298,6 +298,7 @@ MonoBehaviour:
   leftKey: 97
   rightKey: 100
   jumpKey: 32
+  boostKey: 304
 --- !u!114 &8505336140026306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,3 +314,4 @@ MonoBehaviour:
   id: 0
   visibilityObject: {fileID: 280503015010202861}
   trail: {fileID: 3993696825034569278}
+  controls: {fileID: 4406136176001423346}
