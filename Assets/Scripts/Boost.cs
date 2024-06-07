@@ -11,18 +11,21 @@ public class Boost : MonoBehaviour
     [Range(0.0f, 60.0f)]
     public float respawnTime = 10.0f;
 
-    [Range(0.0f, 2.0f)]
-    public float baseSize = 1.0f;
-
     [Range(0.0f, 10.0f)]
-    public float pulseSpeed = 2.0f;
+    public float baseSize = 1.0f;
 
     [Range(0.0f, 1.0f)]
     public float pulseAmount = 0.1f;
 
+    private BgMusic bgMusic;
+
     private bool pickedUp = false;
     private float timeLeft = 0.0f;
 
+    public void Start()
+    {
+        bgMusic = FindObjectOfType<BgMusic>();
+    }
 
     private void FixedUpdate()
     {
@@ -37,7 +40,7 @@ public class Boost : MonoBehaviour
         }
         else
         {
-            model.localScale = Vector3.one * (baseSize + Mathf.Sin(Time.time * pulseSpeed) * pulseAmount);
+            model.localScale = Vector3.one * (baseSize + bgMusic.GetSpectrum() * pulseAmount);
         }
     }
 

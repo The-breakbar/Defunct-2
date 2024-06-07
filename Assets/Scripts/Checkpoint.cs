@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    [Range(0.0f, 3.0f)]
+    public float boostBonus;
     private bool active = false;
     private GameLoop gameLoop;
     private PlayerCamera playerCamera;
@@ -31,6 +33,8 @@ public class Checkpoint : MonoBehaviour
     {
         if (active && other.gameObject.CompareTag("Player"))
         {
+            Controls player = other.gameObject.GetComponent<Controls>();
+            player.AddBoost(1.0f);
             gameLoop.CheckpointReached(this);
         }
     }

@@ -10,16 +10,37 @@ public class Player : MonoBehaviour
     private int points = 0;
     public Controls controls;
     private Checkpoint checkpointGoal;
+    public Transform checkpoinMarker;
+
+    private BgMusic bgMusic;
+
+    [Range(0.0f, 1.0f)]
+    public float trailWidth;
+
+    public void Start()
+    {
+        bgMusic = FindObjectOfType<BgMusic>();
+    }
 
     public void Update()
     {
-        if (controls.IsBoosting())
+        // Update trail width based on the music spectrum
+        trail.widthMultiplier = trailWidth * bgMusic.GetSpectrum();
+        if (controls.IsBoosting()) trail.widthMultiplier *= 2.0f;
+
+        if (checkpointGoal != null)
         {
-            SetTrailWidth(2.0f);
+            if (!checkpoinMarker.gameObject.activeSelf) checkpoinMarker.gameObject.SetActive(true);
+
+            // Calculate angle between player and checkpoint and rotate the checkpoint marker
+            Vector3 playerToCheckpoint = checkpointGoal.transform.position - transform.position;
+            playerToCheckpoint.y = 0.0f;
+            float angle = Vector3.SignedAngle(playerToCheckpoint, transform.forward, Vector3.up);
+            checkpoinMarker.rotation = Quaternion.Euler(0.0f, -angle, 0.0f);
         }
         else
         {
-            SetTrailWidth(1.0f);
+            if (checkpoinMarker.gameObject.activeSelf) checkpoinMarker.gameObject.SetActive(false);
         }
     }
 
@@ -35,11 +56,6 @@ public class Player : MonoBehaviour
         bool onScreen = screenPos.x > 0f && screenPos.x < Screen.width && screenPos.y > 0f && screenPos.y < Screen.height;
 
         return onScreen && visibilityObject.isVisible;
-    }
-
-    public void SetTrailWidth(float width)
-    {
-        trail.widthMultiplier = width;
     }
 
     public void ClearTrail()

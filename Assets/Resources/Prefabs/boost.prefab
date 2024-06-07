@@ -49,8 +49,7 @@ MonoBehaviour:
   boostAmount: 0.5
   model: {fileID: 5734250809803474136}
   respawnTime: 10
-  baseSize: 1.5
-  pulseSpeed: 6
+  baseSize: 1
   pulseAmount: 0.2
 --- !u!135 &5092848200876106900
 SphereCollider:

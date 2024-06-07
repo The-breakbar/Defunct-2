@@ -12,6 +12,7 @@ public class Controls : MonoBehaviour
     public KeyCode rightKey = KeyCode.D;
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode boostKey = KeyCode.LeftShift;
+    public Transform modelTransform;
 
     [Range(0.0f, 100.0f)]
     public float speed = 15.0f;
@@ -68,7 +69,10 @@ public class Controls : MonoBehaviour
 
         // Cap speed
         speed = Input.GetKey(boostKey) ? Mathf.Min(speed, maxBoostSpeed) : Mathf.Min(speed, maxSpeed);
+    }
 
+    public void Update()
+    {
         velocity = new Vector3(0, velocity.y, 0);
 
         // Horizontal movement
@@ -82,7 +86,19 @@ public class Controls : MonoBehaviour
         // Change the direction the player is facing
         if (move != Vector3.zero)
         {
-            gameObject.transform.forward = move;
+            modelTransform.forward = move;
+        }
+
+        // Change the angle the player is facing
+        if (controller.isGrounded)
+        {
+            // reset vertical rotation
+            modelTransform.eulerAngles = new Vector3(0, modelTransform.eulerAngles.y, 0);
+        }
+        else
+        {
+            // rotate player 45 degrees upwards
+            modelTransform.eulerAngles = new Vector3(velocity.y < 0 ? 45 : -35, modelTransform.eulerAngles.y, 0);
         }
 
         // Vertical movement
