@@ -20,6 +20,7 @@ public class GameLoop : MonoBehaviour
     private float currentDelay;
     private List<Checkpoint> checkpoints = new List<Checkpoint>();
     private Checkpoint lastCheckpoint;
+    private Checkpoint currentCheckpoint;
 
     public void Start()
     {
@@ -94,7 +95,11 @@ public class GameLoop : MonoBehaviour
             newCheckpoint = checkpoints[Random.Range(0, checkpoints.Count)];
         }
         newCheckpoint.Activate();
+        player1.SetCheckpointGoal(newCheckpoint);
+        player2.SetCheckpointGoal(newCheckpoint);
+
         lastCheckpoint = checkpoint;
+        currentCheckpoint = newCheckpoint;
     }
 
     // Utility to wait for a delay

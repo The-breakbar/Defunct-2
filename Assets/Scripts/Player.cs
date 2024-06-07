@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public TrailRenderer trail;
     private int points = 0;
     public Controls controls;
+    private Checkpoint checkpointGoal;
 
     public void Update()
     {
@@ -54,6 +55,11 @@ public class Player : MonoBehaviour
     public int GetPoints()
     {
         return points;
+    }
+
+    public void SetCheckpointGoal(Checkpoint checkpoint)
+    {
+        checkpointGoal = checkpoint;
     }
 
 }

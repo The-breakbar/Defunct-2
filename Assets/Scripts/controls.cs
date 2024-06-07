@@ -68,10 +68,7 @@ public class Controls : MonoBehaviour
 
         // Cap speed
         speed = Input.GetKey(boostKey) ? Mathf.Min(speed, maxBoostSpeed) : Mathf.Min(speed, maxSpeed);
-    }
 
-    void Update()
-    {
         velocity = new Vector3(0, velocity.y, 0);
 
         // Horizontal movement
