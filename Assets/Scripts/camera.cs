@@ -5,7 +5,8 @@ using UnityEngine;
 public enum CameraState
 {
     Tracking,
-    Lerping
+    Lerping,
+    Transition
 }
 
 public class PlayerCamera : MonoBehaviour
@@ -23,6 +24,7 @@ public class PlayerCamera : MonoBehaviour
     public float camChangeTime = 1.0f;
     private float remainingTime = 0.0f;
     private Vector3 lastChangePosition;
+    private float transitionTime;
 
     void Update()
     {
@@ -31,6 +33,22 @@ public class PlayerCamera : MonoBehaviour
         Vector3 interpHigh = player1Closer ? player1.position : player2.position;
         Vector3 targetPosition = Vector3.Lerp(interpLow, interpHigh, interpolation);
         targetPosition += offset;
+
+        if (state == CameraState.Transition)
+        {
+            remainingTime -= Time.deltaTime;
+            if (remainingTime <= 0.0f)
+            {
+                state = CameraState.Tracking;
+            }
+            else
+            {
+                float t = 1.0f - (remainingTime / transitionTime);
+                transform.position = Vector3.Lerp(lastChangePosition, targetPosition, t);
+            }
+
+            return;
+        }
 
         if (player1Closer != player1WasCloser)
         {
@@ -64,5 +82,13 @@ public class PlayerCamera : MonoBehaviour
     public void SetGoal(Vector3 goal)
     {
         currentGoal = goal;
+    }
+
+    public void TransitionFor(float time)
+    {
+        state = CameraState.Transition;
+        remainingTime = time;
+        transitionTime = time;
+        lastChangePosition = transform.position;
     }
 }

@@ -309,7 +309,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 70
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
@@ -335,13 +335,13 @@ MonoBehaviour:
   modelTransform: {fileID: 5645629037672201228}
   speed: 15
   speedIncreaseAfterSlowdown: 0.5
-  maxSpeed: 15
+  maxSpeed: 30
   boost: 3
   maxBoost: 3
-  maxBoostSpeed: 30
+  maxBoostSpeed: 50
   boostSpeedChange: 1
-  jumpPower: 10
-  gravity: 18
+  jumpPower: 20
+  gravity: 35
 --- !u!114 &8505336140026306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,7 +386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12696a3be04ac5f4fbced7f7809d27eb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.99992
+      value: -0.063
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12696a3be04ac5f4fbced7f7809d27eb, type: 3}
       propertyPath: m_LocalPosition.z

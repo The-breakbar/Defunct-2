@@ -42,6 +42,8 @@ public class Controls : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
 
+    GameLoop gameLoop;
+
     public void DoSlowDown(float speedAfterSlowdown, float speedIncreaseAfterSlowdown)
     {
         speed = speedAfterSlowdown;
@@ -51,6 +53,7 @@ public class Controls : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        gameLoop = FindObjectOfType<GameLoop>();
     }
 
     private void FixedUpdate()
@@ -59,10 +62,10 @@ public class Controls : MonoBehaviour
         if (speed < maxSpeed) speed += speedIncreaseAfterSlowdown;
 
         // Boosting
-        if (Input.GetKey(boostKey) && boost > 0)
+        if (Input.GetKey(boostKey) && boost > 0 && gameLoop.GetState() == GameState.Racing)
         {
             speed += boostSpeedChange;
-            boost -= Time.deltaTime;
+            boost -= Time.fixedDeltaTime;
             boost = Mathf.Max(boost, 0);
         }
         else if (speed > maxSpeed) speed -= boostSpeedChange;
@@ -74,6 +77,14 @@ public class Controls : MonoBehaviour
     public void Update()
     {
         velocity = new Vector3(0, velocity.y, 0);
+
+        // if not racing, only apply gravity
+        if (gameLoop.GetState() != GameState.Racing)
+        {
+            velocity.y -= gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+            return;
+        }
 
         // Horizontal movement
         Vector3 move = Vector3.zero;

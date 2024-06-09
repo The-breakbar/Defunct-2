@@ -31,7 +31,7 @@ public class Boost : MonoBehaviour
     {
         if (pickedUp)
         {
-            timeLeft -= Time.deltaTime;
+            timeLeft -= Time.fixedDeltaTime;
             if (timeLeft <= 0.0f)
             {
                 model.gameObject.SetActive(true);

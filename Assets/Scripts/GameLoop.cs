@@ -22,6 +22,8 @@ public class GameLoop : MonoBehaviour
     private Checkpoint lastCheckpoint;
     private Checkpoint currentCheckpoint;
 
+    public PlayerCamera playerCamera;
+
     public void Start()
     {
         // Grab all checkpoints in the scene
@@ -39,6 +41,7 @@ public class GameLoop : MonoBehaviour
         // Select random starting checkpoint
         CheckpointReached(checkpoints[Random.Range(0, checkpoints.Count)]);
         Respawn();
+        playerCamera.TransitionFor(0);
     }
 
     public void Update()
@@ -71,6 +74,7 @@ public class GameLoop : MonoBehaviour
                 }
                 else
                 {
+                    CheckpointReached(currentCheckpoint);
                     Respawn();
                 }
             }
@@ -81,8 +85,9 @@ public class GameLoop : MonoBehaviour
     private void Respawn()
     {
         state = GameState.Spawning;
-        currentDelay = 1.0f;
+        currentDelay = 5.0f;
         TeleportPlayersTo(lastCheckpoint.transform);
+        playerCamera.TransitionFor(4.0f);
     }
 
     public void CheckpointReached(Checkpoint checkpoint)
@@ -116,7 +121,7 @@ public class GameLoop : MonoBehaviour
     private void TeleportPlayersTo(Transform target)
     {
         // Offset the players slightly so they don't overlap
-        Vector3 offset = new Vector3(0, 2, 0);
+        Vector3 offset = new Vector3(0, 1, 0);
         Vector3 playerOffset = new Vector3(0, 0, 2);
 
         player1.transform.position = target.position + offset + playerOffset;

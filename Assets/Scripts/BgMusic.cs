@@ -22,6 +22,8 @@ public class BgMusic : MonoBehaviour
 
     public float GetSpectrum()
     {
+        if (spectrum == null) return 0.0f;
+
         return Mathf.Log(spectrum[spectrumBand] + 0.001f, 2) * -1 * multiplier;
     }
 }

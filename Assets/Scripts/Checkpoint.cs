@@ -14,6 +14,7 @@ public class Checkpoint : MonoBehaviour
     {
         gameLoop = FindObjectOfType<GameLoop>();
         playerCamera = FindObjectOfType<PlayerCamera>();
+        Deactivate();
     }
 
     public void Activate()
