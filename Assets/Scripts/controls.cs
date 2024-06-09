@@ -34,7 +34,7 @@ public class Controls : MonoBehaviour
     [Range(0.0f, 50.0f)]
     public float jumpPower = 10.0f;
 
-    [Range(0.0f, 50.0f)]
+    [Range(0.0f, 300.0f)]
     public float gravity = 18.0f;
 
     // a character controller is a small wrapper for a rigid body
@@ -72,17 +72,20 @@ public class Controls : MonoBehaviour
 
         // Cap speed
         speed = Input.GetKey(boostKey) ? Mathf.Min(speed, maxBoostSpeed) : Mathf.Min(speed, maxSpeed);
-    }
 
-    public void Update()
-    {
         velocity = new Vector3(0, velocity.y, 0);
+
+        if (gameLoop.GetState() == GameState.Spawning)
+        {
+            modelTransform.forward = new Vector3(1, 0, 0);
+
+        }
 
         // if not racing, only apply gravity
         if (gameLoop.GetState() != GameState.Racing)
         {
-            velocity.y -= gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
+            velocity.y -= gravity * Time.fixedDeltaTime;
+            controller.Move(velocity * Time.fixedDeltaTime);
             return;
         }
 
@@ -108,21 +111,29 @@ public class Controls : MonoBehaviour
         }
         else
         {
-            // rotate player 45 degrees upwards
-            modelTransform.eulerAngles = new Vector3(velocity.y < 0 ? 45 : -35, modelTransform.eulerAngles.y, 0);
+            // rotate player based on vertical velocity
+            // map the vertical velocity to an angle between -45 and +45 degrees
+            // clamp the speed to between -5 and 5
+            float angle = Mathf.Clamp(velocity.y, -10, 10) * 4.5f;
+            modelTransform.eulerAngles = new Vector3(-angle, modelTransform.eulerAngles.y, 0);
         }
 
         // Vertical movement
         if (controller.isGrounded)
         {
-            velocity.y = Input.GetKeyDown(jumpKey) ? jumpPower : 0;
+            velocity.y = Input.GetKey(jumpKey) ? jumpPower : 0;
         }
 
         // Apply gravity (should be done every frame for consistent isGrounded behavior)
-        velocity.y -= gravity * Time.deltaTime;
+        velocity.y -= gravity * Time.fixedDeltaTime;
 
         // Move the player
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(velocity * Time.fixedDeltaTime);
+    }
+
+    public void Update()
+    {
+
     }
 
     public float GetBoostPercentage()

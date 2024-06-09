@@ -4950,9 +4950,9 @@ Transform:
   m_GameObject: {fileID: 4770956703578121513}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.9, z: 0}
-  m_LocalScale: {x: 1.6837115, y: 2.6739202, z: 1.6837115}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 3.21, z: 0}
+  m_LocalScale: {x: 1.6620927, y: 2.0977063, z: 1.6620927}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1971157924157345004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4984,7 +4984,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1f120ca38ad4634fbf243ba5f4c4609, type: 2}
+  - {fileID: 2100000, guid: 2dc49e9901ffa8f458f45c1bfaec2b19, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5036,8 +5036,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7062147712701405453}
-  - component: {fileID: 2405515653551531501}
   - component: {fileID: 8563892624141352838}
+  - component: {fileID: 2405515653551531501}
   m_Layer: 0
   m_Name: obstacle_pillar
   m_TagString: Untagged
@@ -5062,6 +5062,23 @@ Transform:
   - {fileID: 1971157924157345004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8563892624141352838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6710603686061490655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8597ce79948ed4dae0661355e852ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleModel: {fileID: 4321829948668648376}
+  speedAfterSlowdown: 6
+  speedIncreaseAfterSlowdown: 0.6
+  respawnTime: 10
+  destructionParticles: {fileID: 4182841877192279673}
 --- !u!65 &2405515653551531501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5081,25 +5098,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.4, y: 5, z: 2.4}
-  m_Center: {x: 0, y: 0.7, z: 0}
---- !u!114 &8563892624141352838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6710603686061490655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8597ce79948ed4dae0661355e852ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstacleModel: {fileID: 4321829948668648376}
-  speedAfterSlowdown: 0
-  speedIncreaseAfterSlowdown: 0.2
-  respawnTime: 10
-  particleSystem: {fileID: 4182841877192279673}
+  m_Size: {x: 2.4, y: 7.89, z: 2.4}
+  m_Center: {x: 0, y: 3.49, z: 0}
 --- !u!1 &6759718924824935251
 GameObject:
   m_ObjectHideFlags: 0
@@ -5128,8 +5128,8 @@ Transform:
   m_GameObject: {fileID: 6759718924824935251}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.269, y: 3.6034234, z: 2.269}
+  m_LocalPosition: {x: 0, y: 0.95, z: 0}
+  m_LocalScale: {x: 2.269, y: 2.5891678, z: 2.269}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1971157924157345004}
@@ -5162,7 +5162,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1f120ca38ad4634fbf243ba5f4c4609, type: 2}
+  - {fileID: 2100000, guid: 2dc49e9901ffa8f458f45c1bfaec2b19, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5233,8 +5233,8 @@ Transform:
   m_GameObject: {fileID: 7722335937344115318}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.36, z: 0}
-  m_LocalScale: {x: 1.0216256, y: 3.6565259, z: 1.0216256}
+  m_LocalPosition: {x: 0, y: 5.79, z: 0}
+  m_LocalScale: {x: 1.0216256, y: 3.0575502, z: 1.0216256}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1971157924157345004}
@@ -5267,7 +5267,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1f120ca38ad4634fbf243ba5f4c4609, type: 2}
+  - {fileID: 2100000, guid: 2dc49e9901ffa8f458f45c1bfaec2b19, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

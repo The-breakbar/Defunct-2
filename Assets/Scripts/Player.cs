@@ -5,8 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int id = 0;
-    public Renderer visibilityObject;
-    public TrailRenderer trail;
+    public GameObject model1;
+    public GameObject model2;
+    public GameObject model3;
+
+    public PlayerColorChanger model1Color;
+    public PlayerColorChanger model2Color;
+    public PlayerColorChanger model3Color;
+
     private int points = 0;
     public Controls controls;
     private Checkpoint checkpointGoal;
@@ -14,12 +20,16 @@ public class Player : MonoBehaviour
 
     private BgMusic bgMusic;
 
+    public ParticleSystem deathParticles;
+
+    public TrailRenderer trail;
     [Range(0.0f, 1.0f)]
     public float trailWidth;
 
     public void Start()
     {
         bgMusic = FindObjectOfType<BgMusic>();
+        SwitchToModel(1);
     }
 
     public void Update()
@@ -53,9 +63,7 @@ public class Player : MonoBehaviour
     public bool CheckVisibility()
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-        bool onScreen = screenPos.x > 0f && screenPos.x < Screen.width && screenPos.y > 0f && screenPos.y < Screen.height;
-
-        return onScreen && visibilityObject.isVisible;
+        return screenPos.x > 0f && screenPos.x < Screen.width && screenPos.y > 0f && screenPos.y < Screen.height;
     }
 
     public void ClearTrail()
@@ -73,9 +81,75 @@ public class Player : MonoBehaviour
         return points;
     }
 
+    public void ResetPoints()
+    {
+        points = 0;
+    }
+
     public void SetCheckpointGoal(Checkpoint checkpoint)
     {
         checkpointGoal = checkpoint;
+    }
+
+    public void SwitchToModel1()
+    {
+        SwitchToModel(1);
+    }
+
+    public void SwitchToModel2()
+    {
+        SwitchToModel(2);
+    }
+
+    public void SwitchToModel3()
+    {
+        SwitchToModel(3);
+    }
+
+    private int activeModel = 1;
+    public int GetModel()
+    {
+        return activeModel;
+    }
+    public void SwitchToModel(int model)
+    {
+        activeModel = model;
+        model1.SetActive(model == 1);
+        model2.SetActive(model == 2);
+        model3.SetActive(model == 3);
+    }
+
+    public void SetMainColor(Color color)
+    {
+        mainColor = color;
+        model1Color.SetMainColor(color);
+        model2Color.SetMainColor(color);
+        model3Color.SetMainColor(color);
+    }
+
+    public void SetSecondaryColor(Color color)
+    {
+        secondaryColor = color;
+        model1Color.SetSecondaryColor(color);
+        model2Color.SetSecondaryColor(color);
+        model3Color.SetSecondaryColor(color);
+
+        trail.startColor = color;
+    }
+
+    private Color mainColor;
+    public Color GetMainColor()
+    {
+        return mainColor;
+    }
+    private Color secondaryColor;
+    public Color GetSecondaryColor()
+    {
+        return secondaryColor;
+    }
+    public void PlayDeathEffect()
+    {
+        deathParticles.Play();
     }
 
 }

@@ -6,6 +6,7 @@ public enum GameState
 {
     Starting,
     Spawning,
+    Countdown,
     Racing,
     Winning
 }
@@ -23,6 +24,7 @@ public class GameLoop : MonoBehaviour
     private Checkpoint currentCheckpoint;
 
     public PlayerCamera playerCamera;
+    public UI ui;
 
     public void Start()
     {
@@ -41,7 +43,7 @@ public class GameLoop : MonoBehaviour
         // Select random starting checkpoint
         CheckpointReached(checkpoints[Random.Range(0, checkpoints.Count)]);
         Respawn();
-        playerCamera.TransitionFor(0);
+        playerCamera.TransitionFor(4.0f);
     }
 
     public void Update()
@@ -50,8 +52,17 @@ public class GameLoop : MonoBehaviour
         {
             if (DelayFinished())
             {
+                state = GameState.Countdown;
+                ui.PlayCountdown();
+                currentDelay = 4.0f;
+            }
+        }
+        else if (state == GameState.Countdown)
+        {
+            if (DelayFinished())
+            {
                 state = GameState.Racing;
-                Debug.Log("Racing started");
+                Debug.Log("Go!");
             }
         }
         else if (state == GameState.Racing)
@@ -64,13 +75,15 @@ public class GameLoop : MonoBehaviour
             if (deadPlayer != null)
             {
                 Debug.Log("Player " + deadPlayer.GetId() + " died");
+                deadPlayer.PlayDeathEffect();
                 Player notDeadPlayer = deadPlayer == player1 ? player2 : player1;
                 notDeadPlayer.AddPoint();
 
                 if (notDeadPlayer.GetPoints() >= pointsToWin)
                 {
                     state = GameState.Winning;
-                    Debug.Log("Player " + notDeadPlayer.GetId() + " won");
+                    currentDelay = 5.0f;
+                    ui.ShowWin(notDeadPlayer.GetId());
                 }
                 else
                 {
@@ -79,13 +92,23 @@ public class GameLoop : MonoBehaviour
                 }
             }
         }
+        else if (state == GameState.Winning)
+        {
+            if (DelayFinished())
+            {
+                player1.ResetPoints();
+                player2.ResetPoints();
+                ui.HideWin();
+                Respawn();
+            }
+        }
     }
 
     // Teleport players to the last checkpoint
     private void Respawn()
     {
         state = GameState.Spawning;
-        currentDelay = 5.0f;
+        currentDelay = 4.0f;
         TeleportPlayersTo(lastCheckpoint.transform);
         playerCamera.TransitionFor(4.0f);
     }

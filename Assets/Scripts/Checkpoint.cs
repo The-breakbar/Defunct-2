@@ -19,6 +19,8 @@ public class Checkpoint : MonoBehaviour
 
     public void Activate()
     {
+        if (playerCamera == null) playerCamera = FindObjectOfType<PlayerCamera>();
+
         active = true;
         gameObject.SetActive(true);
         playerCamera.SetGoal(transform.position);

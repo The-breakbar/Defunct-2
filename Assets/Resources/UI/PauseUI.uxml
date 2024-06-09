@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/custom_styles_pause.uss?fileID=7433441132597879392&amp;guid=b210f87805e38314fa9bf83f70f66c08&amp;type=3#custom_styles_pause" />
+    <ui:VisualElement name="Backdrop" style="flex-grow: 1; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0.2);">
+        <ui:Label tabindex="-1" text="PAUSE" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; font-size: 100px; margin-top: 20px; justify-content: flex-start; align-items: auto; flex-direction: column; height: 116px;" />
+        <ui:Button text="Resume" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Resume_Button" focusable="true" style="justify-content: flex-start; height: 65px; flex-basis: 100px; position: absolute; top: 40px; left: auto; right: 40px;" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; margin-top: 20px;">
+            <ui:VisualElement name="P1" style="flex-grow: 1;">
+                <ui:VisualElement name="Top" style="flex-grow: 1; margin-top: 20px; margin-right: 20px; margin-left: 20px; height: 0;" />
+                <ui:VisualElement name="Bottom" style="flex-grow: 1;">
+                    <ui:DropdownField label="Model" name="Model_Dropdown_1" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="P2" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

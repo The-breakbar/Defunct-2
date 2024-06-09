@@ -13,11 +13,11 @@ public class Obstacle : MonoBehaviour
     private bool destroyed = false;
     private float timeLeft = 0.0f;
 
-    public new ParticleSystem particleSystem;
+    public ParticleSystem destructionParticles;
 
     private void Start()
     {
-        particleSystem.Pause(true);
+        destructionParticles.Pause(true);
     }
 
     private void FixedUpdate()
@@ -41,7 +41,7 @@ public class Obstacle : MonoBehaviour
 
             // TODO: Add a sound effect
             // Add a particle effect
-            particleSystem.Play(true);
+            destructionParticles.Play(true);
 
             obstacleModel.SetActive(false);
             destroyed = true;
